@@ -3,3 +3,6 @@ langchain
 langgraph
 tavily-python
 polygon
+langchain_community
+langchain_pinecone
+langchain-tavily

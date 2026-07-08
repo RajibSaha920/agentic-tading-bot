@@ -1,8 +1,17 @@
-lancedb
+
 langchain
 langgraph
 tavily-python
-polygon
-langchain_community
-langchain_pinecone
+langchain-pinecone
+langchain-community
+langchain-pinecone
+langchain-google-genai
+streamlit
+fastapi[all]
 langchain-tavily
+uvicorn
+langsmith
+pydantic
+python-dotenv
+
+-e .

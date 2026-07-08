@@ -3,7 +3,7 @@ app:
 
 vector_db:
   provider: "pinecone"
-  index_name: "langchain-test-index"
+  index_name: "tradng-bot"
 
 retriever:
   top_k: 3

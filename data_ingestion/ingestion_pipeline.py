@@ -14,7 +14,7 @@ from langchain_community.document_loaders import (
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_pinecone import PineconeVectorStore
 
-from pinecone import Pinecone, ServerlessSpec
+from pinecone import ServerlessSpec, Pinecone
 
 from utils.model_loaders import ModelLoader
 from utils.config_loader import load_config
@@ -88,12 +88,15 @@ class DataIngestion:
             documents = text_splitter.split_documents(documents)
 
             pinecone_client = Pinecone(api_key=self.pinecone_api_key)
-            index_name = self.config["vector_db"]["index_name"]
+            #index_name = self.config["vector_db"]["index_name"]
+            index_name = "trading-bot"
 
-            if index_name not in [i.name for i in pinecone_client.list_indexes()]:
+            #if index_name not in [i.name for i in pinecone_client.list_indexes()]:
+            if index_name not in pinecone_client.list_indexes().names():
+                
                 pinecone_client.create_index(
                     name=index_name,
-                    dimension=768,  # adjust if needed based on embedding model
+                    dimension=3072,  # adjust if needed based on embedding model
                     metric="cosine",
                     spec=ServerlessSpec(cloud="aws", region="us-east-1"),
                 )
@@ -101,6 +104,8 @@ class DataIngestion:
             index = pinecone_client.Index(index_name)
             vector_store = PineconeVectorStore(index=index, embedding=self.model_loader.load_embeddings())
             uuids = [str(uuid4()) for _ in range(len(documents))]
+
+            print(pinecone_client.list_indexes().names())
 
             vector_store.add_documents(documents=documents, ids=uuids)
         except Exception as e:

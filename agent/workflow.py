@@ -7,7 +7,8 @@ from utils.model_loaders import ModelLoader
 from toolkit.tools import *
 
 class State(TypedDict):
-    messages:Annotated(list,add_messages)
+    messages:Annotated[list, add_messages]
+     
 
 
 

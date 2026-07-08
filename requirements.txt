@@ -13,5 +13,8 @@ uvicorn
 langsmith
 pydantic
 python-dotenv
+langchain_groq
+pypdf
+docx2txt
 
 -e .

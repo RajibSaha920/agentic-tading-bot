@@ -19,7 +19,6 @@ model_loader = ModelLoader()
 
 pinecone_api_key = os.getenv("PINECONE_API_KEY")
 pc = Pinecone(api_key=pinecone_api_key)
-
 api_wrapper = PolygonAPIWrapper()
 embeddings = config["embedding_model"]["model_name"]
 index = pc.Index(config["vector_db"]["index_name"])
@@ -29,7 +28,10 @@ index = pc.Index(config["vector_db"]["index_name"])
 @tool(args_schema=RagToolSchema)
 def retriever_tool(question):
     """this is retriever tool"""
+
+    
     pinecone_api_key = os.getenv("PINECONE_API_KEY")
+    
     pc = Pinecone(api_key=pinecone_api_key)
     vector_store = PineconeVectorStore(index=pc.Index(config["vector_db"]["index_name"]), 
                             embedding= model_loader.load_embeddings())

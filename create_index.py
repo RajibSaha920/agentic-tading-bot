@@ -10,14 +10,15 @@ pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index_name = "trading-bot"
 
 print("Existing:", pc.list_indexes().names())
+print(pc.describe_index("trading-bot"))
 
 pc.create_index(
-    name=index_name,
-    dimension=768,
+    name="trading-bot",
+    dimension=3072,
     metric="cosine",
     spec=ServerlessSpec(
         cloud="aws",
-        region="us-east-1",
+        region="us-east-1"
     ),
 )
 

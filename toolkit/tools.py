@@ -27,7 +27,7 @@ index = pc.Index(config["vector_db"]["index_name"])
 
 @tool(args_schema=RagToolSchema)
 def retriever_tool(question):
-    """this is retriever tool"""
+    """Retrieve relevant documents from Pinecone."""
 
     
     pinecone_api_key = os.getenv("PINECONE_API_KEY")
@@ -35,9 +35,14 @@ def retriever_tool(question):
     pc = Pinecone(api_key=pinecone_api_key)
     vector_store = PineconeVectorStore(index=pc.Index(config["vector_db"]["index_name"]), 
                             embedding= model_loader.load_embeddings())
+
+    
     retriever = vector_store.as_retriever(
         search_type="similarity_score_threshold",
-        search_kwargs={"k": config["retriever"]["top_k"] , "score_threshold": config["retriever"]["score_threshold"]},
+         search_kwargs={
+            "k": config["retriever"]["top_k"],
+            "score_threshold": config["retriever"]["score_threshold"],
+        },
     )
     retriever_result=retriever.invoke(question)
     
